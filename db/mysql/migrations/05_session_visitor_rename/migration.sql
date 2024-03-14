@@ -37,4 +37,4 @@ RENAME TABLE `session` TO `visitor`;
 RENAME TABLE `session_data` TO `visitor_data`;
 
 -- CreateIndex
-CREATE INDEX `website_event_website_id_visitor_id_created_at_idx` ON `website_event`(`website_id`, `visitor_id`, `created_at`);
+CREATE INDEX `website_event_website_id_session_id_created_at_idx` ON `website_event`(`website_id`, `session_id`, `created_at`);
