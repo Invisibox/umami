@@ -30,7 +30,16 @@ ALTER TABLE `session_data` CHANGE `session_id` `visitor_id` VARCHAR(36) NOT NULL
 ALTER TABLE `session_data` CHANGE `event_key` `visitor_key` VARCHAR(500) NOT NULL;
 
 ALTER TABLE `website_event` CHANGE `session_id` `visitor_id` VARCHAR(36) NOT NULL;
-ALTER TABLE `website_event` ADD `session_id` VARCHAR(36) NOT NULL AFTER `visitor_id`;
+
+-- session_id
+ALTER TABLE `website_event` ADD `session_id` VARCHAR(36) NULL AFTER `visitor_id`;
+
+UPDATE `website_event`
+SET session_id = uuid_in(overlay(overlay(md5(CONCAT(session_id::text, to_char(date_trunc('hour', created_at), 'YYYY-MM-DD HH24:00:00'))) placing '4' from 13) placing '8' from 17)::cstring)
+WHERE session_id IS NULL;
+
+ALTER TABLE `website_event` MODIFY `session_id` VARCHAR(36) NOT NULL;
+
 
 -- RenameTable
 RENAME TABLE `session` TO `visitor`;

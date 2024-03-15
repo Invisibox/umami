@@ -33,8 +33,7 @@ ALTER TABLE "session_data" RENAME COLUMN "session_key" TO "visitor_key";
 
 ALTER TABLE "website_event" RENAME COLUMN "session_id" TO "visitor_id";
 
-
--- SessionId
+-- session_id
 ALTER TABLE "website_event" ADD COLUMN "session_id" UUID NULL;
 
 UPDATE "website_event"
